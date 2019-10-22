@@ -6,6 +6,9 @@ inputs:
     required: true
   labels:
     description: 'A list of labels to add to all issues and PRs'
+  token:
+    description: 'The github token to use when calling github apis'
+    required: true
 runs:
   using: 'node12'
   main: 'index.js'

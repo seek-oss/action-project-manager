@@ -9,25 +9,39 @@ async function run() {
         const payload = JSON.stringify(github.context.payload, undefined, 2);
         console.log(`Payload: ${payload}`);
 
-        const api = new github.GitHub(token);
-        const contentType = (github.context.payload.issue != null ? 'Issue' : 'PullRequest');
+        if (isPullRequest(github.context.payload) || isIssue(github.context.payload)) {
+            
+            const api = new github.GitHub(token);
 
-        const params = {
-            content_id: github.context.payload.id,
-            column_id: columnId,
-            content_type: contentType
-        };
+            const params = {
+                content_id: contentId(github.context.payload),
+                column_id: columnId,
+                content_type: contentType(github.context.payload)
+            };
 
-        console.log(`params: ${JSON.stringify(params, undefined, 2)}`);
+            console.log(`params: ${JSON.stringify(params, undefined, 2)}`);
 
-        const result = await api.projects.createCard(params);
+            const result = await api.projects.createCard(params);
 
-        console.log(`Projects: ${JSON.stringify(result)}`);
+            console.log(`Projects: ${JSON.stringify(result)}`);
+        }
 
     } catch(error) {
         core.setFailed(error.message);
     }
 }
+
+const isPullRequest = payload =>
+      false;
+
+const isIssue = payload =>
+      payload.issue != null;
+
+const contentId = payload =>
+      isIssue(payload) ? payload.issue.id : null;
+
+const contentType = payload =>
+      isIssue(payload) ? 'Issue' : '';
 
 run();
 

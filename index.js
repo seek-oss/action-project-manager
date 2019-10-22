@@ -4,21 +4,25 @@ const github = require('@actions/github');
 async function run() {
     try {
         const project = core.getInput('project');
-        console.log(`Project: ${project}`);
+        // console.log(`Project: ${project}`);
 
         const payload = JSON.stringify(github.context.payload, undefined, 2);
-        console.log(`Payload: ${payload}`);
+        // console.log(`Payload: ${payload}`);
 
         const token = core.getInput('token');
         const columnId = core.getInput('columnId');
         const api = new github.GitHub(token);
         const contentType = (github.context.payload.issue != null ? 'Issue' : 'PullRequest');
 
-        const result = await api.projects.createCard({
+        const params = {
             content_id: payload.id,
             column_id: columnId,
             content_type: contentType
-        });
+        };
+
+        console.log(`params: ${JSON.stringify(params, undefined, 2)}`);
+
+        const result = await api.projects.createCard(params);
 
         console.log(`Projects: ${JSON.stringify(result)}`);
 

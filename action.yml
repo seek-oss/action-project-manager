@@ -1,8 +1,11 @@
 name: 'Project Manager'
 description: 'Assign issues and PRs to projects'
 inputs:
-  columndId:
-    description: 'The id of the project column to add issues and pull requests to'
+  issueColumndId:
+    description: 'The id of the project column to add issues to'
+    required: true
+  pullRequestColumndId:
+    description: 'The id of the project column to add pull requests to'
     required: true
   token:
     description: 'The github token to use when calling github apis'

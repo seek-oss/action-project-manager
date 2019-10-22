@@ -29,7 +29,6 @@ async function run() {
 
 run();
 
-https://github.com/orgs/SEEK-Jobs/projects/11#column-4154706
 
 // {
 //     "assignee": null,

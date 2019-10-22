@@ -4,9 +4,6 @@ inputs:
   columndId:
     description: 'The id of the project column to add issues and pull requests to'
     required: true
-  project:
-    description: 'The project to add all issues and PRs to'
-    required: true
   labels:
     description: 'A list of labels to add to all issues and PRs'
   token:

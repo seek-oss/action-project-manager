@@ -3,19 +3,17 @@ const github = require('@actions/github');
 
 async function run() {
     try {
-        const project = core.getInput('project');
-        // console.log(`Project: ${project}`);
-
-        const payload = JSON.stringify(github.context.payload, undefined, 2);
-        // console.log(`Payload: ${payload}`);
-
         const token = core.getInput('token');
         const columnId = core.getInput('columnId');
+        const labels = core.getInput('labels');
+        // const payload = JSON.stringify(github.context.payload, undefined, 2);
+        // console.log(`Payload: ${payload}`);
+
         const api = new github.GitHub(token);
         const contentType = (github.context.payload.issue != null ? 'Issue' : 'PullRequest');
 
         const params = {
-            content_id: payload.id,
+            content_id: github.context.payload.id,
             column_id: columnId,
             content_type: contentType
         };

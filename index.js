@@ -10,7 +10,7 @@ async function run() {
         const issueColumnId = core.getInput('issueColumnId');
         const pullRequestColumnId = core.getInput('pullRequestColumnId');
         const payload = github.context.payload;
-        const api = new github.Github(token);
+        const api = new github.GitHub(token);
 
         if (isPullRequest(payload)) {
             return await api.projects.createCard({

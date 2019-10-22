@@ -5,13 +5,13 @@ async function run() {
     try {
         const token = core.getInput('token');
         const columnId = core.getInput('columnId');
-        const labels = core.getInput('labels');
+        const labels = core.getInput('labels') || '';
 
         if (isPullRequest(github.context.payload) || isIssue(github.context.payload)) {
             const api = new github.GitHub(token);
 
             // Ensure all labels exists
-            for (var label of labels) {
+            for (var label of labels.split(',')) {
                 const existing = await api.issues.getLabel({
                     owner: github.context.payload.repository.owner.login,
                     repo: github.context.payload.repository.name,

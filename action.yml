@@ -4,8 +4,6 @@ inputs:
   columndId:
     description: 'The id of the project column to add issues and pull requests to'
     required: true
-  labels:
-    description: 'A list of labels to add to all issues and PRs'
   token:
     description: 'The github token to use when calling github apis'
     required: true

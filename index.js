@@ -10,16 +10,16 @@ async function run() {
         console.log(`Payload: ${payload}`);
 
         const token = core.getInput('token');
+        const columnId = core.getInput('columnId');
         const api = new github.GitHub(token);
+        const contentType = (github.context.payload.issue != null ? 'Issue' : 'PullRequest');
 
-        // const restult = await api.projects.createCard({
-        //     content_id: payload.id
-        // });
-
-        const result = await api.projects.listForOrg({
-            org: 'SEEK-Jobs'
+        const result = await api.projects.createCard({
+            content_id: payload.id,
+            column_id: columnId,
+            content_type: contentType
         });
-        
+
         console.log(`Projects: ${JSON.stringify(result)}`);
 
     } catch(error) {
@@ -29,6 +29,7 @@ async function run() {
 
 run();
 
+https://github.com/orgs/SEEK-Jobs/projects/11#column-4154706
 
 // {
 //     "assignee": null,

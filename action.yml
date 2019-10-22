@@ -1,6 +1,9 @@
 name: 'Project Manager'
 description: 'Assign issues and PRs to projects'
 inputs:
+  columndId:
+    description: 'The id of the project column to add issues and pull requests to'
+    required: true
   project:
     description: 'The project to add all issues and PRs to'
     required: true

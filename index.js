@@ -6,8 +6,8 @@ async function run() {
         const token = core.getInput('token');
         const columnId = core.getInput('columnId');
         const labels = core.getInput('labels');
-        // const payload = JSON.stringify(github.context.payload, undefined, 2);
-        // console.log(`Payload: ${payload}`);
+        const payload = JSON.stringify(github.context.payload, undefined, 2);
+        console.log(`Payload: ${payload}`);
 
         const api = new github.GitHub(token);
         const contentType = (github.context.payload.issue != null ? 'Issue' : 'PullRequest');

@@ -12,6 +12,7 @@ async function run() {
 
             // Ensure all labels exists
             for (var label of labels.split(',')) {
+                console.log(`get label ${label}`);
                 const existing = await api.issues.getLabel({
                     owner: github.context.payload.repository.owner.login,
                     repo: github.context.payload.repository.name,

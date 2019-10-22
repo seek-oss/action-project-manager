@@ -7,6 +7,8 @@ inputs:
   token:
     description: 'The github token to use when calling github apis'
     required: true
+  labels:
+    description: 'Labels to add to issues and pull requests'
 runs:
   using: 'node12'
   main: 'index.js'

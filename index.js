@@ -35,8 +35,7 @@ async function run() {
             });
         }
     } catch (error) {
-        tools.log.error('MessageType::::', typeof error)
-        if (error.message == 'Project already has the associated issue') {
+        if (error.message.includes('Project already has the associated issue')) {
             tools.log.info('Project already has associated card')
             return
         }

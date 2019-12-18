@@ -15,29 +15,30 @@ async function run() {
         const payload = github.context.payload;
         const api = new github.GitHub(token);
 
+        tools.github.issues.addAssignees
+
         if (isPullRequest(payload)) {
-            tools.log.info('Processing pull request')
-            const { data: res } = await api.projects.createCard({
+            tools.log.info('Processing pull request', payload.pull_request.html_url)
+            return await api.projects.createCard({
                 column_id: pullRequestColumnId,
                 content_id: payload.pull_request.id,
                 content_type: contentTypePullRequest
             });
-            tools.log.info('Result', res)
-            return
         }
 
         if (isIssue(payload)) {
-            tools.log.info('Processing issue')
-            const res = await api.projects.createCard({
+            tools.log.info('Processing issue', payload.issue.html_url)
+            return await api.projects.createCard({
                 column_id: issueColumnId,
                 content_id: payload.issue.id,
                 content_type: contentTypeIssue
             });
-            tools.log.info('Result', res)
+        }
+    } catch (error) {
+        if (error.message == 'Project already has the associated issue') {
+            tools.log.info('Project already has associated card')
             return
         }
-    } catch(error) {
-        tools.log.error('Error occurred', error)
         core.setFailed(error.message);
     }
 }

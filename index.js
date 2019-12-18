@@ -13,21 +13,26 @@ async function run() {
         const api = new github.GitHub(token);
 
         if (isPullRequest(payload)) {
-            return await api.projects.createCard({
+            const { data: res } = await api.projects.createCard({
                 column_id: pullRequestColumnId,
                 content_id: payload.pull_request.id,
                 content_type: contentTypePullRequest
             });
+            console.log("Got: " + res)
+            return
         }
 
         if (isIssue(payload)) {
-            return await api.projects.createCard({
+            const res = await api.projects.createCard({
                 column_id: issueColumnId,
                 content_id: payload.issue.id,
                 content_type: contentTypeIssue
             });
+            console.log("Got: " + res)
+            return
         }
     } catch(error) {
+        console.log("Error message: " + error.message + ", error: " + error)
         core.setFailed(error.message);
     }
 }

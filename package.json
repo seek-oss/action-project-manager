@@ -19,6 +19,7 @@
   "homepage": "https://github.com/seek-oss/action-project-manager#readme",
   "dependencies": {
     "@actions/core": "^1.2.0",
-    "@actions/github": "^1.1.0"
+    "@actions/github": "^1.1.0",
+    "actions-toolkit": "^1.6.0"
   }
 }

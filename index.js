@@ -1,6 +1,8 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const toolkit = require('actions-toolkit')
+const {Toolkit} = require('actions-toolkit');
+
+const tools = new Toolkit();
 
 const contentTypePullRequest = 'PullRequest';
 const contentTypeIssue = 'Issue';
@@ -14,26 +16,28 @@ async function run() {
         const api = new github.GitHub(token);
 
         if (isPullRequest(payload)) {
+            tools.log.info('Processing pull request')
             const { data: res } = await api.projects.createCard({
                 column_id: pullRequestColumnId,
                 content_id: payload.pull_request.id,
                 content_type: contentTypePullRequest
             });
-            console.log("Got result: " + res)
+            tools.log.info('Result', res)
             return
         }
 
         if (isIssue(payload)) {
+            tools.log.info('Processing issue')
             const res = await api.projects.createCard({
                 column_id: issueColumnId,
                 content_id: payload.issue.id,
                 content_type: contentTypeIssue
             });
-            console.log("Got result: " + res)
+            tools.log.info('Result', res)
             return
         }
     } catch(error) {
-        console.log("Error message: " + error.message + ", error: " + error)
+        tools.log.error('Error occurred', error)
         core.setFailed(error.message);
     }
 }

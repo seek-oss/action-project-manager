@@ -1,5 +1,8 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const {Toolkit} = require('actions-toolkit');
+
+const tools = new Toolkit();
 
 const contentTypePullRequest = 'PullRequest';
 const contentTypeIssue = 'Issue';
@@ -12,7 +15,10 @@ async function run() {
         const payload = github.context.payload;
         const api = new github.GitHub(token);
 
+        tools.github.issues.addAssignees
+
         if (isPullRequest(payload)) {
+            tools.log.info('Processing pull request', payload.pull_request.html_url)
             return await api.projects.createCard({
                 column_id: pullRequestColumnId,
                 content_id: payload.pull_request.id,
@@ -21,13 +27,18 @@ async function run() {
         }
 
         if (isIssue(payload)) {
+            tools.log.info('Processing issue', payload.issue.html_url)
             return await api.projects.createCard({
                 column_id: issueColumnId,
                 content_id: payload.issue.id,
                 content_type: contentTypeIssue
             });
         }
-    } catch(error) {
+    } catch (error) {
+        if (error.message.includes('Project already has the associated issue')) {
+            tools.log.info('Project already has associated card')
+            return
+        }
         core.setFailed(error.message);
     }
 }
